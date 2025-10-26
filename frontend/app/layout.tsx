@@ -1,14 +1,13 @@
 // app/layout.tsx
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Toaster } from 'sonner'
+import { Onest } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const onest = Onest({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AI Sales Simulator',
-  description: 'Practice sales calls with AI-powered prospects',
+  title: 'Dynamic',
+  description: 'Practice sales calls with AI-powered prospects that help you win up',
 }
 
 export default function RootLayout({
@@ -18,10 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <Toaster position="top-right" />
-      </body>
+      <body className={onest.className}>{children}</body>
     </html>
   )
 }
