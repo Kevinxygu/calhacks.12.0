@@ -3,7 +3,7 @@
 export default function Persona() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      Persona loading page. We'll have this page up while the backend cooks making the persona with all our AI agents and elevenlabs stuff
+      Persona loading page. We'll have this page up while the backend cooks making the persona with all our claude AI agents and elevenlabs stuff
     </div>
   );
 }
