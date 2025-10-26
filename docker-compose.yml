@@ -1,0 +1,87 @@
+# docker-compose.yml
+# This file defines all services (backend, frontend) and how they connect
+
+version: '3.8'  # Docker Compose file format version
+
+services:
+  # ============================================================================
+  # BACKEND SERVICE (Go)
+  # ============================================================================
+  backend:
+    # Build configuration
+    build:
+      context: ./backend           # Where to find Dockerfile
+      dockerfile: Dockerfile       # Dockerfile name
+    
+    # Container name (easier to identify in docker ps)
+    container_name: sales-sim-backend
+    
+    # Port mapping: host:container
+    # 8080:8080 means localhost:8080 on your machine -> port 8080 in container
+    ports:
+      - "8080:8080"
+    
+    # Environment variables
+    # These are available inside the container
+    environment:
+      - GIN_MODE=debug            # Gin debug mode (more logging)
+      - PORT=8080
+    
+    # Volumes: Mount local code into container
+    # THIS IS KEY FOR HOT RELOAD!
+    # Format: ./local/path:/container/path
+    # When you edit files locally, changes appear in container immediately
+    volumes:
+      - ./backend:/app             # Mount entire backend directory
+      - /app/tmp                   # Don't mount tmp (build artifacts)
+    
+    # Restart policy: always restart if container crashes
+    restart: unless-stopped
+    
+    # Networks: Connect to custom network (so services can talk to each other)
+    networks:
+      - sales-sim-network
+
+  # ============================================================================
+  # FRONTEND SERVICE (Next.js)
+  # ============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    
+    container_name: sales-sim-frontend
+    
+    ports:
+      - "3000:3000"
+    
+    environment:
+      # Point frontend to backend using service name
+      # In Docker Compose, services can reach each other by service name
+      # "backend" resolves to the backend container's IP
+      - NEXT_PUBLIC_API_URL=http://backend:8080/api
+      - NEXT_PUBLIC_WS_URL=ws://backend:8080/ws
+    
+    # Volumes for hot reload
+    volumes:
+      - ./frontend:/app                    # Mount source code
+      - /app/node_modules                  # Don't mount node_modules
+      - /app/.next                         # Don't mount build cache
+    
+    # Depends on backend (start backend first)
+    depends_on:
+      - backend
+    
+    restart: unless-stopped
+    
+    networks:
+      - sales-sim-network
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+# Custom network so containers can communicate
+# Without this, containers are isolated
+networks:
+  sales-sim-network:
+    driver: bridge  # Default network driver (like a virtual switch)

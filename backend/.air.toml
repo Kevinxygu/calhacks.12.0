@@ -1,0 +1,45 @@
+# backend/.air.toml
+# Configuration for Air (Go hot reload tool)
+
+# Working directory
+root = "."
+
+# Temporary directory for builds
+tmp_dir = "tmp"
+
+[build]
+  # Command to build your app
+  cmd = "go build -o ./tmp/main ./cmd/server"
+  
+  # Binary to run after build
+  bin = "tmp/main"
+  
+  # Include these file extensions for watching
+  include_ext = ["go", "tpl", "tmpl", "html"]
+  
+  # Exclude these directories from watching
+  exclude_dir = ["assets", "tmp", "vendor", "frontend"]
+  
+  # Delay before rebuilding (milliseconds)
+  delay = 1000
+  
+  # Stop running process before building (kill old process)
+  stop_on_error = false
+  
+  # Add logs on what Air is doing
+  log = "build-errors.log"
+
+[color]
+  # Enable colored output
+  main = "magenta"
+  watcher = "cyan"
+  build = "yellow"
+  runner = "green"
+
+[log]
+  # Show build time
+  time = true
+
+[misc]
+  # Delete tmp directory on exit
+  clean_on_exit = true
