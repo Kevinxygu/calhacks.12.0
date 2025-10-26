@@ -10,7 +10,7 @@ interface FileUploadProps {
   onChange: (file: File | null) => void
 }
 
-export function FileUpload({ label, accept = '.pdf,.jpg,.jpeg', onChange }: FileUploadProps) {
+export function FileUpload({ label, accept = '.mp3,.mp4,.mov', onChange }: FileUploadProps) {
   const [fileName, setFileName] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -31,7 +31,7 @@ export function FileUpload({ label, accept = '.pdf,.jpg,.jpeg', onChange }: File
       >
         <Upload className="w-8 h-8 text-white/40" />
         <p className="text-sm text-white/60">
-          {fileName || 'Supported file types: pdf, jpg'}
+          {fileName || 'Supported file types: mp3, mp4, mov, avi'}
         </p>
         <button
           type="button"

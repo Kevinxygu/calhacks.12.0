@@ -1,4 +1,4 @@
-// components/simulation/FormTextArea.tsx
+// form area component to render for notes
 interface FormTextAreaProps {
   label: string
   value: string

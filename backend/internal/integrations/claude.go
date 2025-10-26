@@ -100,7 +100,7 @@ func (c *ClaudeClient) buildPersonaPrompt(req models.PersonaGenerationRequest) s
     // Base prompt
     basePrompt := fmt.Sprintf(`You are an AI that generates realistic sales prospect personas for practice calls.
 
-Generate a detailed persona based on these parameters:
+Generate a detailed persona, for now only with female names, based on these parameters:
 - Role: %s
 - Company: %s
 - Difficulty: %s (easy = friendly/interested, medium = skeptical but open, harsh = hostile/dismissive)
