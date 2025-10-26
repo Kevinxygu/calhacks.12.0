@@ -26,15 +26,18 @@ export default function HomePage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Store settings in sessionStorage for next page
-    sessionStorage.setItem('simulationSettings', JSON.stringify(settings))
-    if (uploadedFile) {
-      // In a real app, you'd upload the file here
-      console.log('File to upload:', uploadedFile)
+    try {
+      // Store settings for persona generation
+      sessionStorage.setItem('simulationSettings', JSON.stringify(settings))
+      
+      // Navigate to persona generation page
+      // The persona page will make the API call
+      router.push('/persona')
+    } catch (error) {
+      console.error('Error:', error)
+      // toast.error('Failed to start interview')
+      setIsLoading(false)
     }
-
-    // Navigate to persona generation
-    router.push('/persona')
   }
 
   const isFormValid = settings.prospectRole && settings.companyName
