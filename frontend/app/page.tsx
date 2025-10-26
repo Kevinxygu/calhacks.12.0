@@ -9,6 +9,7 @@ import { FileUpload } from '@/components/FileUpload'
 import { SelectInput } from '@/components/SelectInput'
 import { Button } from '@/components/ui/button'
 import { SimulationSettings } from '@/lib/types'
+import { FormTextArea } from '@/components/FormTextArea'
 
 export default function HomePage() {
   const router = useRouter()
@@ -18,6 +19,7 @@ export default function HomePage() {
     companyName: '',
     callType: 'cold',
     enableCoaching: true,
+    notes: '',
   })
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -91,6 +93,16 @@ export default function HomePage() {
           <FileUpload
             label="Previous client calls"
             onChange={setUploadedFile}
+          />
+          <FormTextArea
+            label="Notes & Guidelines (Optional)"
+            value={settings.notes || ''}
+            onChange={(value) =>
+              setSettings({ ...settings, notes: value })
+            }
+            placeholder="Example: Focus on our new AI features, emphasize ROI within 6 months, avoid discussing pricing until they show interest..."
+            rows={5}
+            maxLength={500}
           />
 
           <Button

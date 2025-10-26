@@ -7,6 +7,7 @@ export interface SimulationSettings {
     companyName: string // e.g. Amazon
     callType: 'cold' | 'follow-up' | 'closing' // type of sales call
     enableCoaching: boolean // whether to enable real-time coaching feedback
+    notes?: string // any additional notes the user wants to provide
 }
 
 // persona info for the AI prospect

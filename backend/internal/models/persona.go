@@ -7,6 +7,7 @@ type PersonaGenerationRequest struct {
     CompanyName   string `json:"companyName"`   // Acme Corp
     CallType      string `json:"callType"`      // cold, follow-up, closing
     EnableCoaching bool  `json:"enableCoaching"`
+	Notes         string `json:"notes"`         // additional notes
 }
 
 // Response to frontend

@@ -97,13 +97,35 @@ func (c *ClaudeClient) GeneratePersona(req models.PersonaGenerationRequest) (*mo
 
 // Build the prompt for Claude to generate a persona
 func (c *ClaudeClient) buildPersonaPrompt(req models.PersonaGenerationRequest) string {
-    return fmt.Sprintf(`You are an AI that generates realistic sales prospect personas for practice calls.
+    // Base prompt
+    basePrompt := fmt.Sprintf(`You are an AI that generates realistic sales prospect personas for practice calls.
 
 Generate a detailed persona based on these parameters:
 - Role: %s
 - Company: %s
 - Difficulty: %s (easy = friendly/interested, medium = skeptical but open, harsh = hostile/dismissive)
-- Call Type: %s
+- Call Type: %s`,
+        req.ProspectRole,
+        req.CompanyName,
+        req.Difficulty,
+        req.CallType,
+    )
+
+    // Add user notes if provided
+    if req.Notes != "" {
+        basePrompt += fmt.Sprintf(`
+
+IMPORTANT USER GUIDELINES:
+The user has provided these specific notes and guidelines for this practice session:
+%s
+
+Make sure the persona and their objections align with these guidelines. The prospect should bring up topics related to these notes during the conversation.`,
+            req.Notes,
+        )
+    }
+
+    // Continue with the rest of the prompt
+    basePrompt += fmt.Sprintf(`
 
 Return ONLY a valid JSON object with this exact structure (no markdown, no extra text):
 {
@@ -121,11 +143,9 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no extra
 Make the persona realistic and appropriate for the difficulty level. For harsh difficulty, make them dismissive and challenging. For easy, make them curious and open.`,
         req.ProspectRole,
         req.CompanyName,
-        req.Difficulty,
-        req.CallType,
-        req.ProspectRole,
-        req.CompanyName,
     )
+
+    return basePrompt
 }
 
 // Parse Claude's JSON response into a Persona struct
